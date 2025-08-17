@@ -6,10 +6,10 @@ def get_book_text(book_path):
 def get_num_words(book_path):
     text = get_book_text(book_path)
     words = text.split()
-    print(f"{len(words)} words found in the document")
+    #print(f"{len(words)} words found in the document")
+    return words
 
 def count_chars(book_path):
-    char = None
     text = get_book_text(book_path)
     chars = {
         "a" : 0,
@@ -39,11 +39,33 @@ def count_chars(book_path):
         "y" : 0,
         "z" : 0
     }
-    for i in range(0, len(text)):
-        char = text[i].lower()
+    for char in text:
         if char in chars:
             chars[char] += 1
-    print(chars)
-        # chars[char] += 1
-        # print(chars)
-    
+    return chars
+
+def new_count(book_path):
+    text = get_book_text(book_path)
+    chars = {}
+    for char in text:
+        if char.lower() not in chars:
+            chars[char.lower()] = 1
+        elif char.lower() in chars:
+            chars[char.lower()] += 1
+    return chars
+
+def list_chars(bookpath):    
+    chars = new_count(bookpath)
+    new_chars = []
+    entry = None
+    for char in chars:
+        if char.isalpha():
+            entry = {
+                "char": char,
+                "num": chars[char]
+            }
+            new_chars.append(entry)
+    def get_char_count(i):
+        return i["num"]
+    new_chars.sort(key=get_char_count, reverse=True)
+    return new_chars
